@@ -1,19 +1,20 @@
 package com.clientserverarchi.bookstore.exception.mapper;
 
-import com.clientserverarchi.bookstore.exception.BookNotFoundException;
-import org.glassfish.jersey.internal.Errors;
+import com.clientserverarchi.bookstore.exception.CartNotFoundException;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
-public class BookNotFoundExceptionMapper implements ExceptionMapper<BookNotFoundException> {
+@Provider
+public class CartNotFoundExceptionMapper implements ExceptionMapper<CartNotFoundException> {
     @Override
-    public Response toResponse(BookNotFoundException exception) {
+    public Response toResponse(CartNotFoundException exception) {
         ErrorMessage errorMessage = new ErrorMessage(
                 exception.getMessage(),
                 Response.Status.NOT_FOUND.getStatusCode(),
-                "https://api.bookstore.com/errors/book-not-found"
+                "https://api.bookstore.com/errors/cart-not-found"
         );
 
         return Response.status(Response.Status.NOT_FOUND)
