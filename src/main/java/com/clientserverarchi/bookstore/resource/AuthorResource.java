@@ -7,6 +7,7 @@ import com.clientserverarchi.bookstore.models.Book;
 import com.clientserverarchi.bookstore.storage.DataStore;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ public class AuthorResource {
     private static final Map<Long, Author> authors = DataStore.getAuthors();
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createAuthor(Author author) {
         if (author.getName() == null || author.getName().trim().isEmpty()) {
             throw new InvalidInputException("Author name cannot be empty");
@@ -30,6 +33,7 @@ public class AuthorResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Author> getAuthors() {
         return new ArrayList<>(authors.values());
     }
@@ -72,7 +76,7 @@ public class AuthorResource {
     @GET
     @Path("/{id}/books")
     public List<Book> getBooksByAuthor(@PathParam("id") Long authorId) {
-        if (authors.containsKey(authorId)) {
+        if (!authors.containsKey(authorId)) {
             throw new AuthorNotFoundException(authorId);
         }
 
