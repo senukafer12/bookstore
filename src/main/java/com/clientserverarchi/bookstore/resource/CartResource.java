@@ -21,7 +21,7 @@ public class CartResource {
         if (!DataStore.getCustomers().containsKey(customerId)) {
             throw new CustomerNotFoundException(customerId);
         }
-        if (item.getBookId() != null || !DataStore.getBooks().containsKey(item.getBookId())) {
+        if (item.getBookId() == null || !DataStore.getBooks().containsKey(item.getBookId())) {
             throw new BookNotFoundException(item.getBookId());
         }
         if (item.getQuantity() <= 0) {
