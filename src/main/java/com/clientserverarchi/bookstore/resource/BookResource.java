@@ -1,5 +1,6 @@
 package com.clientserverarchi.bookstore.resource;
 
+import com.clientserverarchi.bookstore.exception.AuthorNotFoundException;
 import com.clientserverarchi.bookstore.exception.BookNotFoundException;
 import com.clientserverarchi.bookstore.exception.InvalidInputException;
 import com.clientserverarchi.bookstore.models.Book;
@@ -8,10 +9,7 @@ import com.clientserverarchi.bookstore.storage.DataStore;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Path("/books")
 @Produces(MediaType.APPLICATION_JSON)
@@ -25,7 +23,11 @@ public class BookResource {
             throw new InvalidInputException("Book title cannot be empty");
         }
         if (book.getAuthorId() == null || !DataStore.getAuthors().containsKey(book.getAuthorId())) {
-            throw new InvalidInputException("Invalid Author ID");
+            throw new AuthorNotFoundException(book.getAuthorId());
+        }
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        if (book.getPublicationYear() > currentYear) {
+            throw new InvalidInputException("Publication year cannot be greater than current year");
         }
         Book createdBook = DataStore.addBook(book);
         return Response.status(Response.Status.CREATED)
