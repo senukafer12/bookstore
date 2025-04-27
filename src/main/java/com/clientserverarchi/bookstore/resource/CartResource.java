@@ -58,24 +58,24 @@ public class CartResource {
     @Path("/items/{bookId}")
     public Response updateCartItem(@PathParam("customerId") Long customerId,
                                    @PathParam("bookId") Long bookId,
-                                   int quantity) {
+                                   CartItem item) {
         if (!DataStore.getCustomers().containsKey(customerId)) {
             throw new CustomerNotFoundException(customerId);
         }
         if (!DataStore.getBooks().containsKey(bookId)) {
             throw new BookNotFoundException(bookId);
         }
-        if (quantity <= 0) {
+        if (item.getQuantity() <= 0) {
             throw new InvalidInputException("Quantity must be greater than 0");
         }
 
         Book book = DataStore.getBooks().get(bookId);
-        if (book.getStockQuantity() < quantity) {
+        if (book.getStockQuantity() < item.getQuantity()) {
             throw new OutOfStockException("Not enough stock available");
         }
 
         Cart cart = DataStore.getOrCreateCart(customerId);
-        cart.getItems().put(bookId, quantity);
+        cart.getItems().put(bookId, item.getQuantity());
 
         return Response.ok(cart).build();
     }
