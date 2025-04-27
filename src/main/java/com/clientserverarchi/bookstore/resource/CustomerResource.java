@@ -26,6 +26,9 @@ public class CustomerResource {
         if (customer.getEmail() == null || !customer.getEmail().contains("@")) {
             throw new InvalidInputException("Invalid email format");
         }
+        if (customer.getPassword() == null || customer.getPassword().trim().isEmpty()) {
+            throw new InvalidInputException("Password cannot be empty");
+        }
 
         Customer createdCustomer = DataStore.addCustomer(customer);
         return Response.status(Response.Status.CREATED)
@@ -56,6 +59,9 @@ public class CustomerResource {
         }
         if (customer.getName() == null || customer.getName().trim().isEmpty()) {
             throw new InvalidInputException("Customer name cannot be empty");
+        }
+        if (customer.getEmail() == null || !customer.getEmail().contains("@")) {
+            throw new InvalidInputException("Invalid email format");
         }
 
         customer.setId(id);
