@@ -1,11 +1,15 @@
 package com.clientserverarchi.bookstore.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 
 public class Order {
     private Long id;
     private Long customerId;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'")
     private LocalDateTime orderDate;
     private Map<Long, Integer> items; // bookId to quantity
     private double totalAmount;
