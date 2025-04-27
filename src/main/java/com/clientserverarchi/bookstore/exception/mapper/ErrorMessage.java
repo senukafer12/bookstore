@@ -1,22 +1,18 @@
 package com.clientserverarchi.bookstore.exception.mapper;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class ErrorMessage {
     private String message;
     private int status;
     private String documentation;
-    private Date timestamp;
-
-    public ErrorMessage() {
-        this.timestamp = new Date();
-    }
+    private String timestamp;
 
     public ErrorMessage(String message, int status, String documentation) {
-        this();
         this.message = message;
         this.status = status;
         this.documentation = documentation;
+        this.timestamp = Instant.now().toString();
     }
 
     public String getMessage() {
@@ -43,11 +39,11 @@ public class ErrorMessage {
         this.documentation = documentation;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 }

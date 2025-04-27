@@ -6,7 +6,9 @@ import org.glassfish.jersey.internal.Errors;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
+@Provider
 public class BookNotFoundExceptionMapper implements ExceptionMapper<BookNotFoundException> {
     @Override
     public Response toResponse(BookNotFoundException exception) {
